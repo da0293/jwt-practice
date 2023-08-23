@@ -20,6 +20,7 @@ public class User {
 	private String password;
 	private String email;
 	private String role; //ROLE_USER, ROLE_ADMIN
+//	private Timestamp loginDate; //로그인할때마다 날짜 
 	@CreationTimestamp
 	private Timestamp createDate;
 }
