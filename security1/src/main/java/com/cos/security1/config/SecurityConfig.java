@@ -16,7 +16,11 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 @EnableMethodSecurity(securedEnabled = true,prePostEnabled = true) // secure 어노테이션 활성화, preAuthorize,postAuthorize 어노테이션 활성화
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
-
+	
+	
+	
+	
+	
 	@Bean
 	public BCryptPasswordEncoder encodePwd() {
 		return new BCryptPasswordEncoder();
@@ -41,7 +45,18 @@ public class SecurityConfig {
 					formLogin.loginPage("/loginForm") // 권한이 필요한 요청은 해당 url로 리다이렉트
 							.loginProcessingUrl("/login") // login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인을 해준다.
 							.defaultSuccessUrl("/"); // 로그인 성공시 /주소로 이동
-
-				}).build();
+							
+				})
+				.oauth2Login((oauth2Login)->{
+					oauth2Login.loginPage("/loginForm")
+							.userInfoEndpoint()
+							.userService(null);
+				})
+				.build();
 	}
 }
+// oauth2Login.loginPage("/loginForm"); 
+// 구글로그인이 완료된 뒤의 후처리가 필요함. Tipㅌ,(엑세스토큰 + 사용자정보 O)
+// 1.코드받기 2.액세스토큰(권한 생김) 3.사용자프로필 가져오고 
+// 4-1.그 정보를 토대로 회원가입을 진행시킴
+// 
